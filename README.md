@@ -518,6 +518,14 @@ You can run these scripts from inside the Jupyter environment or directly in the
 docker exec -it ray-jupyter python /app/scripts/ray_data_llm_haiku_example.py
 ```
 
+#### Note on Temporary Files
+
+When you run Ray, it creates a `tmp` directory at the project root to store session information, logs, and runtime resources. This directory:
+- Contains temporary data that is regenerated each time Ray runs
+- Is excluded from version control via .gitignore
+- May grow in size during long-running operations
+- Can be safely deleted when Ray is not running if you need to free up disk space
+
 ### Data Processing
 
 The examples in this repository demonstrate how to process various types of textual data:

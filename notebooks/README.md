@@ -24,6 +24,19 @@ To run these notebooks:
 
 4. Open the desired notebook and execute the cells sequentially
 
+### Note on Temporary Files
+
+When running the notebooks, Ray will create a `tmp` directory at the project root that contains:
+- Session information and logs
+- Runtime resources for Ray processes
+- Metrics data
+
+This directory:
+- Is automatically generated and can be safely ignored
+- Is excluded from version control
+- May grow in size during extended notebook sessions
+- Can be safely deleted when not running Ray if you need to clean up disk space
+
 ## Notebook Descriptions
 
 ### ray_data_llm_test.ipynb
