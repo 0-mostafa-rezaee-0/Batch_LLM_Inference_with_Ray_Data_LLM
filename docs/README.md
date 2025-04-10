@@ -4,7 +4,8 @@ This directory contains supplementary documentation and reference materials for 
 
 ## Contents
 
-- `Native LLM APIs in Ray Data and Ray Serve.pdf` - Technical documentation from Anyscale about the Ray Data LLM and Ray Serve LLM APIs.
+- `reference_article.md` - Markdown version of the Anyscale article about Ray Data LLM and Ray Serve LLM APIs
+- `reference_article.pdf` - PDF version of the Anyscale article about Ray Data LLM and Ray Serve LLM APIs
 - `jargon.md` - A comprehensive glossary of technical terms and concepts used in this project, including Ray, Kubernetes, LLM-related terminology, and more.
 
 ## References and Important Links
