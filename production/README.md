@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="../figures/logo.png" alt="logo" width="50%">
+    <img src="../figures/Ray.png" alt="Ray" width="50%">
 </div>
 
 # Production Deployment for Ray Data LLM
