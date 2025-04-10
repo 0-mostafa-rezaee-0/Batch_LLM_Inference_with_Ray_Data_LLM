@@ -1,0 +1,142 @@
+apiVersion: ray.io/v1
+kind: RayService
+metadata:
+  name: ray-serve-llm
+spec:
+  serviceUnhealthySecondThreshold: 300
+  deploymentUnhealthySecondThreshold: 300
+  serveConfigV2: |
+    applications:
+      - name: llm-app
+        import_path: llm_app.deployment:llm_app
+        route_prefix: /
+        runtime_env:
+          working_dir: "https://github.com/yourusername/Batch_LLM_Inference_with_Ray_Data_LLM/archive/refs/heads/main.zip"
+          pip:
+            - ray[serve,data]>=2.44.0
+            - vllm>=0.4.0
+            - transformers>=4.36.0
+          env_vars:
+            HUGGING_FACE_HUB_TOKEN: ${HUGGING_FACE_HUB_TOKEN}
+        deployments:
+          - name: llm-router
+            num_replicas: 2
+            user_config:
+              models:
+                - llama-3-8b
+                - qwen-0.5b
+            ray_actor_options:
+              num_cpus: 2
+              num_gpus: 0
+          - name: llama-3-8b
+            num_replicas: 1
+            user_config:
+              model_id: meta-llama/Llama-3.1-8B-Instruct
+              engine_kwargs:
+                tensor_parallel_size: 1
+                enable_chunked_prefill: true
+                max_num_batched_tokens: 4096
+                max_model_len: 16384
+            ray_actor_options:
+              num_cpus: 4
+              num_gpus: 1
+          - name: qwen-0.5b
+            num_replicas: 2
+            user_config:
+              model_id: Qwen/Qwen2.5-0.5B-Instruct
+              engine_kwargs:
+                tensor_parallel_size: 1
+                max_num_batched_tokens: 4096
+            ray_actor_options:
+              num_cpus: 2
+              num_gpus: 1
+    
+  rayClusterConfig:
+    headGroupSpec:
+      serviceType: ClusterIP
+      rayStartParams:
+        dashboard-host: "0.0.0.0"
+        block: "true"
+      template:
+        spec:
+          containers:
+          - name: ray-head
+            image: rayproject/ray:latest-gpu
+            ports:
+            - containerPort: 6379
+            - containerPort: 8265
+            - containerPort: 10001
+            - containerPort: 8000
+            resources:
+              limits:
+                cpu: "4"
+                memory: "16Gi"
+              requests:
+                cpu: "2"
+                memory: "8Gi"
+            env:
+            - name: RAY_BACKEND_LOG_LEVEL
+              value: "info"
+            - name: HUGGING_FACE_HUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token
+                  key: token
+            volumeMounts:
+            - mountPath: /tmp/ray
+              name: ray-logs
+            - mountPath: /etc/ray/model-cache
+              name: model-cache
+          volumes:
+          - name: ray-logs
+            emptyDir: {}
+          - name: model-cache
+            persistentVolumeClaim:
+              claimName: ray-model-cache-pvc
+    
+    workerGroupSpecs:
+    - name: gpu-worker-group
+      replicas: 4
+      minReplicas: 2
+      maxReplicas: 8
+      rayStartParams:
+        block: "true"
+      template:
+        spec:
+          nodeSelector:
+            accelerator: nvidia
+          containers:
+          - name: ray-worker
+            image: rayproject/ray:latest-gpu
+            lifecycle:
+              preStop:
+                exec:
+                  command: ["/bin/sh", "-c", "ray stop"]
+            resources:
+              limits:
+                nvidia.com/gpu: 1
+                cpu: "8"
+                memory: "32Gi"
+              requests:
+                nvidia.com/gpu: 1
+                cpu: "4"
+                memory: "16Gi"
+            env:
+            - name: RAY_BACKEND_LOG_LEVEL
+              value: "info"
+            - name: HUGGING_FACE_HUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token
+                  key: token
+            volumeMounts:
+            - mountPath: /tmp/ray
+              name: ray-logs
+            - mountPath: /etc/ray/model-cache
+              name: model-cache
+          volumes:
+          - name: ray-logs
+            emptyDir: {}
+          - name: model-cache
+            persistentVolumeClaim:
+              claimName: ray-model-cache-pvc 

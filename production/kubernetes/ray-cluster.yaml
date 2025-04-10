@@ -1,0 +1,117 @@
+apiVersion: ray.io/v1
+kind: RayCluster
+metadata:
+  name: ray-llm-cluster
+spec:
+  headGroupSpec:
+    serviceType: ClusterIP
+    rayStartParams:
+      dashboard-host: "0.0.0.0"
+      block: "true"
+    template:
+      spec:
+        containers:
+        - name: ray-head
+          image: rayproject/ray:latest
+          ports:
+          - containerPort: 6379 # Redis port for Ray
+          - containerPort: 8265 # Ray dashboard
+          - containerPort: 10001 # Ray head service
+          resources:
+            limits:
+              cpu: "4"
+              memory: "16Gi"
+            requests:
+              cpu: "2"
+              memory: "8Gi"
+          env:
+          - name: RAY_BACKEND_LOG_LEVEL
+            value: "info"
+          volumeMounts:
+          - mountPath: /tmp/ray
+            name: ray-logs
+        volumes:
+        - name: ray-logs
+          emptyDir: {}
+        
+  workerGroupSpecs:
+  - name: cpu-worker-group
+    replicas: 2
+    minReplicas: 1
+    maxReplicas: 5
+    rayStartParams:
+      block: "true"
+    template:
+      spec:
+        containers:
+        - name: ray-worker
+          image: rayproject/ray:latest
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "ray stop"]
+          resources:
+            limits:
+              cpu: "4"
+              memory: "16Gi"
+            requests:
+              cpu: "2"
+              memory: "8Gi"
+          env:
+          - name: RAY_BACKEND_LOG_LEVEL
+            value: "info"
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          volumeMounts:
+          - mountPath: /tmp/ray
+            name: ray-logs
+        volumes:
+        - name: ray-logs
+          emptyDir: {}
+          
+  - name: gpu-worker-group
+    replicas: 2
+    minReplicas: 1
+    maxReplicas: 10
+    rayStartParams:
+      block: "true"
+    template:
+      spec:
+        nodeSelector:
+          accelerator: nvidia
+        containers:
+        - name: ray-worker
+          image: rayproject/ray-ml:latest-gpu
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "ray stop"]
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+              cpu: "8"
+              memory: "32Gi"
+            requests:
+              nvidia.com/gpu: 1
+              cpu: "4"
+              memory: "16Gi"
+          env:
+          - name: RAY_BACKEND_LOG_LEVEL
+            value: "info"
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          volumeMounts:
+          - mountPath: /tmp/ray
+            name: ray-logs
+          - mountPath: /etc/ray/model-cache
+            name: model-cache
+        volumes:
+        - name: ray-logs
+          emptyDir: {}
+        - name: model-cache
+          persistentVolumeClaim:
+            claimName: ray-model-cache-pvc 

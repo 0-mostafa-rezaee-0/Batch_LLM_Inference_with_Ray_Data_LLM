@@ -1,0 +1,89 @@
+# Production Environment Configuration
+
+# Infrastructure Settings
+infrastructure:
+  provider: aws
+  region: us-west-2
+  cluster_type: eks
+  node_groups:
+    cpu:
+      instance_type: m5.2xlarge
+      min_nodes: 2
+      max_nodes: 5
+    gpu:
+      instance_type: g4dn.xlarge
+      min_nodes: 2
+      max_nodes: 10
+
+# Ray Cluster Settings
+ray:
+  head:
+    cpu: 4
+    memory: 16Gi
+  workers:
+    cpu:
+      cpu: 4
+      memory: 16Gi
+      replicas: 2
+    gpu:
+      cpu: 8
+      memory: 32Gi
+      gpu: 1
+      replicas: 4
+
+# LLM Models Configuration
+models:
+  - name: llama-3-8b
+    id: meta-llama/Llama-3.1-8B-Instruct
+    replicas: 1
+    tensor_parallel_size: 1
+    max_batch_tokens: 4096
+    model_len: 16384
+    resources:
+      cpu: 4
+      memory: 16Gi
+      gpu: 1
+  - name: qwen-0.5b
+    id: Qwen/Qwen2.5-0.5B-Instruct
+    replicas: 2
+    tensor_parallel_size: 1
+    max_batch_tokens: 4096
+    resources:
+      cpu: 2
+      memory: 8Gi
+      gpu: 1
+
+# Storage
+storage:
+  model_cache:
+    type: pvc
+    size: 50Gi
+    storage_class: gp2
+  data:
+    type: s3
+    bucket: ray-llm-models-prod
+
+# Monitoring
+monitoring:
+  prometheus:
+    enabled: true
+    retention: 15d
+  grafana:
+    enabled: true
+  alert_config:
+    gpu_usage_threshold: 0.95
+    p95_latency_threshold: 2.0
+    error_rate_threshold: 0.01
+
+# Logging
+logging:
+  level: info
+  structured: true
+  retention: 7d
+
+# Security
+security:
+  authentication: true
+  authorization: rbac
+  data_encryption: true
+  network_policy: strict 

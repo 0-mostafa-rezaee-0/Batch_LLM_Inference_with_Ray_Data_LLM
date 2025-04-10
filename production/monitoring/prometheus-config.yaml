@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+    
+    rule_files:
+      - /etc/prometheus/prometheus.rules
+    
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+          - alertmanager-service:9093
+    
+    scrape_configs:
+      - job_name: 'kubernetes-apiservers'
+        kubernetes_sd_configs:
+          - role: endpoints
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+            action: keep
+            regex: default;kubernetes;https
+      
+      - job_name: 'ray'
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_component]
+            action: keep
+            regex: (ray-head|ray-worker)
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            action: keep
+            regex: metrics
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: instance
+      
+      - job_name: 'ray-serve'
+        kubernetes_sd_configs:
+          - role: service
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_ray_io_serve_app]
+            action: keep
+            regex: llm-app
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: instance
+      
+      - job_name: 'node-exporter'
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_node_name]
+            target_label: node_name
+            action: replace
+          - source_labels: [__address__]
+            regex: '(.*):10250'
+            replacement: '${1}:9100'
+            target_label: __address__
+            action: replace
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-rules
+  namespace: monitoring
+data:
+  prometheus.rules: |
+    groups:
+    - name: ray
+      rules:
+      - alert: RayNodeDown
+        expr: up{job="ray"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Ray node down"
+          description: "Ray node {{ $labels.instance }} has been down for more than 5 minutes."
+      
+      - alert: HighGPUUsage
+        expr: gpu_memory_used / gpu_memory_total > 0.95
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High GPU memory usage"
+          description: "GPU on {{ $labels.instance }} has been using more than 95% memory for more than 10 minutes."
+      
+      - alert: LLMHighLatency
+        expr: llm_request_duration_seconds{quantile="0.95"} > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High LLM latency"
+          description: "LLM responses p95 latency is above 2 seconds for more than 5 minutes." 
