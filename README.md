@@ -67,7 +67,17 @@
 </details>
 
 <details>
-  <summary><a href="docs/jargon.md"><i><b>7. Technical Jargon Glossary</b></i></a></summary>
+  <summary><a href="#7-getting-started"><i><b>7. Getting Started</b></i></a></summary>
+  <div>
+              <a href="#installation-and-setup">7.1. Installation and Setup</a><br>
+              <a href="#running-examples">7.2. Running Examples</a><br>
+              <a href="#data-processing">7.3. Data Processing</a><br>
+              <a href="#shutting-down">7.4. Shutting Down</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="docs/jargon.md"><i><b>8. Technical Jargon Glossary</b></i></a></summary>
   <div>
               A comprehensive glossary of technical terms and concepts used in this project.
   </div>
@@ -407,3 +417,101 @@ For optimal performance with Ray Data LLM and Ray Serve LLM, consider the follow
   - SSD storage with 100GB+ free space
 
 For larger models (such as Llama-3.1-70B), more substantial GPU resources or a multi-GPU setup is required. The examples in this repository are configured to run on the testing environment specified above and may need adjustment for your specific hardware configuration.
+
+## 7. Getting Started
+
+### Installation and Setup
+
+This project uses Docker to ensure a consistent environment across different systems. Follow these steps to get started:
+
+#### Prerequisites
+
+- Docker and Docker Compose installed on your system
+- Git for cloning the repository
+- At least 16GB RAM and 4 CPU cores
+- 50GB of free disk space
+
+#### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/Batch_LLM_Inference_with_Ray_Data_LLM.git
+cd Batch_LLM_Inference_with_Ray_Data_LLM
+```
+
+#### Step 2: Build and Start Docker Containers
+
+```bash
+cd docker
+docker-compose build
+docker-compose up -d
+```
+
+This will:
+- Build the Docker images with all required dependencies
+- Start two containers:
+  - `ray-head`: The Ray cluster head node for coordinating distributed computation
+  - `ray-jupyter`: A Jupyter Lab environment connected to the Ray cluster
+
+#### Step 3: Access Jupyter Lab
+
+Open your web browser and navigate to:
+```
+http://localhost:8888
+```
+
+No password is required (configured for development purposes).
+
+### Running Examples
+
+The repository contains several ways to explore batch LLM inference with Ray:
+
+#### 1. Jupyter Notebooks
+
+Navigate to the `notebooks` directory in Jupyter Lab to find:
+- `ray_data_llm_test.ipynb`: A comprehensive notebook demonstrating Ray Data LLM functionality
+- `batch_inference_example.ipynb`: Original example notebook
+
+Execute the cells sequentially to understand how batch inference works with Ray Data LLM.
+
+#### 2. Python Scripts
+
+The `scripts` directory contains standalone Python scripts:
+
+- `ray_data_llm_haiku_example.py`: Demonstrates batch inference with a Llama model to generate haikus
+- `ray_serve_llm_deployment.py`: Shows how to deploy a Qwen model with Ray Serve
+- `openai_client_query.py`: Illustrates how to query a Ray Serve LLM deployment
+
+You can run these scripts from inside the Jupyter environment or directly in the container:
+
+```bash
+# From your host machine
+docker exec -it ray-jupyter python /app/scripts/ray_data_llm_haiku_example.py
+```
+
+### Data Processing
+
+The examples in this repository demonstrate how to process various types of textual data:
+
+1. **Simple Questions**: Batch processing of common questions (What is the capital of France?, etc.)
+2. **Creative Prompts**: Processing user prompts for text generation (Write a haiku about..., etc.)
+3. **Social Media Analysis**: Using LLMs for sentiment analysis on batches of social media posts
+
+To use your own data:
+1. Prepare your data as a CSV, JSON, or a list of text items
+2. Load the data using Ray Data's import functions
+3. Process it using the LLM processor as shown in the examples
+
+### Shutting Down
+
+When you're done experimenting, shut down the Docker containers:
+
+```bash
+cd docker
+docker-compose down
+```
+
+This will stop all containers and free up system resources.
+
+## 8. Technical Jargon Glossary
+
+A comprehensive glossary of technical terms and concepts used in this project is available in the [Technical Jargon Glossary](docs/jargon.md).
