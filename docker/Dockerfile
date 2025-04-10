@@ -6,7 +6,6 @@ WORKDIR /app
 # Install additional Python dependencies
 RUN pip install --no-cache-dir \
     "ray[data]>=2.9.0" \
-    vllm \
     pandas \
     numpy \
     torch \
@@ -19,6 +18,15 @@ RUN pip install --no-cache-dir \
     scikit-learn \
     huggingface_hub \
     datasets
+
+# Install vLLM with appropriate support
+RUN pip install --no-cache-dir vllm 
+
+# Install additional dependencies for Llama models
+RUN pip install --no-cache-dir \
+    sentencepiece \
+    accelerate \
+    tokenizers>=0.13.3
 
 # Copy requirements file if needed
 COPY requirements.txt /app/
