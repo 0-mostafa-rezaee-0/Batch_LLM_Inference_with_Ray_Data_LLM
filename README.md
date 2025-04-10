@@ -59,7 +59,15 @@
 </details>
 
 <details>
-  <summary><a href="docs/jargon.md"><i><b>6. Technical Jargon Glossary</b></i></a></summary>
+  <summary><a href="#6-hardware-requirements-and-testing-environment"><i><b>6. Hardware Requirements and Testing Environment</b></i></a></summary>
+  <div>
+              <a href="#testing-environment">6.1. Testing Environment</a><br>
+              <a href="#hardware-recommendations">6.2. Hardware Recommendations</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="docs/jargon.md"><i><b>7. Technical Jargon Glossary</b></i></a></summary>
   <div>
               A comprehensive glossary of technical terms and concepts used in this project.
   </div>
@@ -369,3 +377,33 @@ Give these new features a spin and let us know your feedback! If you're interest
 - [Ray Serve Production Guide](https://docs.ray.io/en/latest/serve/production-guide.html)
 - [Ray Roadmap](https://docs.ray.io/en/latest/roadmap.html)
 - [KubeRay](https://github.com/ray-project/kuberay)
+
+## 6. Hardware Requirements and Testing Environment
+
+This project has been tested on the following hardware setup:
+
+### Testing Environment
+
+- **CPU**: Intel Core i7-10875H @ 2.30GHz (8 cores, 16 threads)
+- **RAM**: 32GB DDR4
+- **GPU**: NVIDIA GeForce RTX 2080 with 8GB VRAM
+- **Storage**: SSD (recommended for faster model loading)
+- **Operating System**: Ubuntu 22.04 LTS (WSL)
+
+### Hardware Recommendations
+
+For optimal performance with Ray Data LLM and Ray Serve LLM, consider the following hardware guidelines:
+
+- **Minimum Requirements**:
+  - 4-core CPU
+  - 16GB RAM
+  - NVIDIA GPU with at least 6GB VRAM (for running smaller models)
+  - 50GB free disk space
+
+- **Recommended for Production**:
+  - 8+ core CPU
+  - 32GB+ RAM
+  - NVIDIA GPU with 8GB+ VRAM (RTX 2080 or better)
+  - SSD storage with 100GB+ free space
+
+For larger models (such as Llama-3.1-70B), more substantial GPU resources or a multi-GPU setup is required. The examples in this repository are configured to run on the testing environment specified above and may need adjustment for your specific hardware configuration.
