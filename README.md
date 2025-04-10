@@ -192,36 +192,38 @@ Ray Data LLM provides a simple and scalable way to perform batch inference using
 ```
 Folder PATH listing
 .
-+---docker                        <-- Docker configuration for Ray cluster
-|       README.md                 <-- Documentation for Docker setup
-|       docker-compose.yml        <-- Defines Ray head and worker services
-|       Dockerfile                <-- Base image for Ray containers
++---docker                              <-- Docker configuration for Ray cluster
+|       README.md                       <-- Documentation for Docker setup
+|       docker-compose.yml              <-- Defines Ray head and worker services
+|       Dockerfile                      <-- Base image for Ray containers
 |
-+---docs                          <-- Documentation files
-|       README.md                 <-- Documentation overview
-|       jargon.md                 <-- Technical jargon glossary
++---docs                                <-- Documentation files
+|       README.md                       <-- Documentation overview
+|       jargon.md                       <-- Technical jargon glossary
+|       reference_article.md            <-- Markdown version of the Ray LLM article 
+|       reference_article.pdf           <-- PDF version of the Ray LLM article
 |
-+---figures                       <-- Contains images for documentation
-|       README.md                 <-- Documentation for the figures folder
-|       logo.png                  <-- Project logo
-|       ray_data_llm.jpg          <-- Ray Data LLM architecture diagram
-|       vLLM_vs_Ray-Serve.jpg     <-- Comparison illustration
++---figures                             <-- Contains images for documentation
+|       README.md                       <-- Documentation for the figures folder
+|       logo.png                        <-- Project logo
+|       ray_data_llm.jpg                <-- Ray Data LLM architecture diagram
+|       vLLM_vs_Ray-Serve.jpg           <-- Comparison illustration
 |
-+---notebooks                     <-- Jupyter notebooks
-|       README.md                 <-- Documentation for the notebooks folder
-|       llama_batch_inference.ipynb <-- Llama 3.1 batch inference examples
-|       ray_data_llm_test.ipynb   <-- Basic Ray Data LLM test notebook
++---notebooks                           <-- Jupyter notebooks
+|       README.md                       <-- Documentation for the notebooks folder
+|       llama_batch_inference.ipynb     <-- Llama 3.1 batch inference examples
+|       ray_data_llm_test.ipynb         <-- Basic Ray Data LLM test notebook
 |
-+---scripts                       <-- Python scripts
-|       README.md                 <-- Documentation for the scripts folder
-|       ray_data_llm_haiku_example.py <-- Example script for haiku generation
-|       ray_serve_llm_deployment.py <-- Example Ray Serve LLM deployment
-|       openai_client_query.py    <-- Example for querying with OpenAI client
++---scripts                             <-- Python scripts
+|       README.md                       <-- Documentation for the scripts folder
+|       ray_data_llm_haiku_example.py   <-- Example script for haiku generation
+|       ray_serve_llm_deployment.py     <-- Example Ray Serve LLM deployment
+|       openai_client_query.py          <-- Example for querying with OpenAI client
 |
-|   .gitignore                    <-- Files to exclude from git
-|   LICENSE                       <-- License information
-|   README.md                     <-- This documentation file
-|   requirements.txt              <-- Python dependencies
+|   .gitignore                          <-- Files to exclude from git
+|   LICENSE                             <-- License information
+|   README.md                           <-- This documentation file
+|   requirements.txt                    <-- Python dependencies
 ```
 
 ## 2. Fundamental Level: Generating Responses to Common Questions
