@@ -7,6 +7,10 @@
 
 tree.txt
 
+# Ray temporary files
+tmp/
+tmp/ray/
+
 # To prevent Zone.Identifier files
 *Zone.Identifier
 
