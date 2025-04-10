@@ -16,6 +16,106 @@
   </div>
 </details>
 
+<details>
+  <summary><a href="#2-infrastructure-as-code-with-terraform"><i><b>2. Infrastructure as Code with Terraform</b></i></a></summary>
+  <div>
+              <a href="#21-terraform-overview">2.1. Terraform Overview</a><br>
+              <a href="#22-available-configurations">2.2. Available Configurations</a><br>
+              <a href="#23-customization-options">2.3. Customization Options</a><br>
+              <a href="#24-applying-terraform-configurations">2.4. Applying Terraform Configurations</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="#3-kubernetes-deployment"><i><b>3. Kubernetes Deployment</b></i></a></summary>
+  <div>
+              <a href="#31-ray-on-kubernetes">3.1. Ray on Kubernetes</a><br>
+              <a href="#32-ray-operator-overview">3.2. Ray Operator Overview</a><br>
+              <a href="#33-ray-cluster-configuration">3.3. Ray Cluster Configuration</a><br>
+              <a href="#34-ray-serve-llm-deployment">3.4. Ray Serve LLM Deployment</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="#4-monitoring-and-observability"><i><b>4. Monitoring and Observability</b></i></a></summary>
+  <div>
+              <a href="#41-prometheus-configuration">4.1. Prometheus Configuration</a><br>
+              <a href="#42-grafana-dashboards">4.2. Grafana Dashboards</a><br>
+              <a href="#43-alerting-rules">4.3. Alerting Rules</a><br>
+              <a href="#44-logging-strategy">4.4. Logging Strategy</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="#5-deployment-scripts"><i><b>5. Deployment Scripts</b></i></a></summary>
+  <div>
+              <a href="#51-deploy-script">5.1. Deploy Script</a><br>
+              <a href="#52-environment-configuration">5.2. Environment Configuration</a><br>
+              <a href="#53-deployment-workflow">5.3. Deployment Workflow</a><br>
+              <a href="#54-troubleshooting">5.4. Troubleshooting</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="#6-configuration-files"><i><b>6. Configuration Files</b></i></a></summary>
+  <div>
+              <a href="#61-environment-specific-configs">6.1. Environment-Specific Configs</a><br>
+              <a href="#62-configuration-structure">6.2. Configuration Structure</a><br>
+              <a href="#63-security-configuration">6.3. Security Configuration</a><br>
+              <a href="#64-resource-allocation">6.4. Resource Allocation</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="#7-scaling-strategies"><i><b>7. Scaling Strategies</b></i></a></summary>
+  <div>
+              <a href="#71-horizontal-vs-vertical-scaling">7.1. Horizontal vs. Vertical Scaling</a><br>
+              <a href="#72-autoscaling-configuration">7.2. Autoscaling Configuration</a><br>
+              <a href="#73-performance-optimization">7.3. Performance Optimization</a><br>
+              <a href="#74-cost-management">7.4. Cost Management</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="#8-security-best-practices"><i><b>8. Security Best Practices</b></i></a></summary>
+  <div>
+              <a href="#81-authentication-and-authorization">8.1. Authentication and Authorization</a><br>
+              <a href="#82-network-security">8.2. Network Security</a><br>
+              <a href="#83-secrets-management">8.3. Secrets Management</a><br>
+              <a href="#84-data-protection">8.4. Data Protection</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="#9-cloud-provider-specific-guides"><i><b>9. Cloud Provider Specific Guides</b></i></a></summary>
+  <div>
+              <a href="#91-aws-deployment">9.1. AWS Deployment</a><br>
+              <a href="#92-gcp-deployment">9.2. GCP Deployment</a><br>
+              <a href="#93-azure-deployment">9.3. Azure Deployment</a><br>
+              <a href="#94-multi-cloud-considerations">9.4. Multi-Cloud Considerations</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="#10-continuous-integration-and-deployment"><i><b>10. Continuous Integration and Deployment</b></i></a></summary>
+  <div>
+              <a href="#101-ci-cd-pipeline-overview">10.1. CI/CD Pipeline Overview</a><br>
+              <a href="#102-github-actions-workflow">10.2. GitHub Actions Workflow</a><br>
+              <a href="#103-jenkins-pipeline">10.3. Jenkins Pipeline</a><br>
+              <a href="#104-deployment-strategies">10.4. Deployment Strategies</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="#11-testing-and-validation"><i><b>11. Testing and Validation</b></i></a></summary>
+  <div>
+              <a href="#111-pre-deployment-testing">11.1. Pre-deployment Testing</a><br>
+              <a href="#112-deployment-validation">11.2. Deployment Validation</a><br>
+              <a href="#113-performance-testing">11.3. Performance Testing</a><br>
+              <a href="#114-running-in-production">11.4. Running in Production</a><br>
+  </div>
+</details>
+
 ## 1. About this Section
 
 This section provides comprehensive guidance for deploying Ray Data LLM in production environments. It transforms the educational concepts from the main repository into a production-ready system with enterprise-grade reliability, scalability, and security.
@@ -1379,3 +1479,215 @@ Different strategies for deploying updates to your Ray Data LLM services:
   ```
 
 Choose the appropriate strategy based on your application's requirements for availability, risk tolerance, and testing needs.
+
+## 11. Testing and Validation
+
+Proper testing and validation are essential before and after deploying Ray Data LLM to production. This section provides guidance on testing your deployment, validating its functionality, and confirming that it meets performance requirements.
+
+### 11.1. Pre-deployment Testing
+
+Before deploying to production, perform these tests:
+
+**Infrastructure Validation**:
+- Run Terraform plan to validate infrastructure changes
+  ```bash
+  cd production/terraform
+  terraform plan -var="environment=prod" -var="aws_region=us-west-2"
+  ```
+- Validate Kubernetes manifests
+  ```bash
+  kubectl apply --dry-run=client -f production/kubernetes/ray-cluster.yaml
+  kubectl apply --dry-run=client -f production/kubernetes/ray-serve-llm.yaml
+  ```
+
+**Local Testing**:
+- Test the deployment locally using minikube
+  ```bash
+  minikube start --driver=docker --cpus=4 --memory=8g
+  helm install kuberay-operator kuberay/kuberay-operator
+  kubectl apply -f production/kubernetes/ray-cluster.yaml
+  ```
+- Validate basic functionality with a scaled-down configuration
+
+### 11.2. Deployment Validation
+
+After deploying to production, perform these validation steps:
+
+**Cluster Health Check**:
+- Verify Ray cluster is running properly
+  ```bash
+  kubectl get raycluster -n ray-prod
+  kubectl get pods -n ray-prod
+  ```
+- Check Ray dashboard for cluster status
+  ```bash
+  kubectl port-forward svc/ray-llm-cluster-head-svc 8265:8265 -n ray-prod
+  # Access dashboard at http://localhost:8265
+  ```
+
+**Model Availability**:
+- Verify models are loaded and available
+  ```bash
+  kubectl logs -n ray-prod -l component=ray-head
+  ```
+- Check Ray Serve status
+  ```bash
+  kubectl port-forward svc/ray-serve-llm-prod-llm-app-svc 8000:8000 -n ray-prod
+  curl http://localhost:8000/v1/models
+  ```
+
+### 11.3. Performance Testing
+
+Validate the performance characteristics of your deployment:
+
+**Load Testing**:
+- Use tools like Locust or k6 to simulate realistic load
+- Create test script for OpenAI-compatible API:
+  ```python
+  # locustfile.py example
+  from locust import HttpUser, task, between
+  import json
+  
+  class LLMUser(HttpUser):
+      wait_time = between(1, 3)
+      
+      @task
+      def generate_text(self):
+          payload = {
+              "model": "llama-3-8b",
+              "messages": [
+                  {"role": "system", "content": "You are a helpful assistant."},
+                  {"role": "user", "content": "What is Ray Data LLM?"}
+              ],
+              "max_tokens": 100
+          }
+          headers = {"Content-Type": "application/json"}
+          self.client.post("/v1/chat/completions", json=payload, headers=headers)
+  ```
+- Run load test:
+  ```bash
+  locust -f locustfile.py --host=http://localhost:8000
+  ```
+
+**Throughput Testing**:
+- Measure requests per second (RPS) and token generation speed
+- Batch throughput test script:
+  ```python
+  import time
+  import concurrent.futures
+  import requests
+  
+  def send_request(prompt):
+      payload = {
+          "model": "llama-3-8b",
+          "messages": [
+              {"role": "user", "content": prompt}
+          ],
+          "max_tokens": 50
+      }
+      start = time.time()
+      response = requests.post(
+          "http://localhost:8000/v1/chat/completions", 
+          json=payload
+      )
+      duration = time.time() - start
+      return response.status_code, duration
+  
+  prompts = ["Tell me about Ray" for _ in range(100)]
+  
+  with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+      results = list(executor.map(send_request, prompts))
+  
+  success_count = sum(1 for status, _ in results if status == 200)
+  avg_latency = sum(duration for _, duration in results) / len(results)
+  
+  print(f"Success rate: {success_count}/{len(results)}")
+  print(f"Average latency: {avg_latency:.2f}s")
+  ```
+
+**Latency Measurement**:
+- Monitor p50, p95, and p99 latency
+- Create a latency test script:
+  ```python
+  import numpy as np
+  import requests
+  import time
+  
+  latencies = []
+  
+  for i in range(50):
+      payload = {
+          "model": "llama-3-8b",
+          "messages": [
+              {"role": "user", "content": f"Summarize: This is test {i}."}
+          ],
+          "max_tokens": 50
+      }
+      start = time.time()
+      response = requests.post(
+          "http://localhost:8000/v1/chat/completions", 
+          json=payload
+      )
+      latency = time.time() - start
+      latencies.append(latency)
+      time.sleep(1)  # Avoid rate limiting
+  
+  p50 = np.percentile(latencies, 50)
+  p95 = np.percentile(latencies, 95)
+  p99 = np.percentile(latencies, 99)
+  
+  print(f"p50 latency: {p50:.2f}s")
+  print(f"p95 latency: {p95:.2f}s")
+  print(f"p99 latency: {p99:.2f}s")
+  ```
+
+### 11.4. Running in Production
+
+To run your production deployment continuously:
+
+**Monitoring Setup**:
+- Ensure Prometheus and Grafana are configured
+  ```bash
+  kubectl port-forward svc/prometheus-server 9090:80 -n monitoring
+  kubectl port-forward svc/grafana 3000:80 -n monitoring
+  ```
+- Set up alerts for critical metrics
+- Configure dashboards for:
+  - Ray cluster health
+  - LLM model performance
+  - GPU utilization
+
+**Regular Health Checks**:
+- Implement automated health checks
+  ```bash
+  # Example health check script
+  #!/bin/bash
+  
+  API_ENDPOINT="http://llm-api.example.com/v1/health"
+  SLACK_WEBHOOK="https://hooks.slack.com/services/xxx/yyy/zzz"
+  
+  response=$(curl -s -o /dev/null -w "%{http_code}" $API_ENDPOINT)
+  
+  if [ "$response" != "200" ]; then
+    curl -X POST -H "Content-type: application/json" \
+      --data "{\"text\":\"❌ LLM API health check failed with status $response\"}" \
+      $SLACK_WEBHOOK
+    exit 1
+  fi
+  
+  echo "Health check passed"
+  ```
+
+**Backup Procedures**:
+- Regularly backup configuration
+  ```bash
+  kubectl get raycluster -n ray-prod -o yaml > backup/raycluster-$(date +%Y%m%d).yaml
+  kubectl get rayservice -n ray-prod -o yaml > backup/rayservice-$(date +%Y%m%d).yaml
+  ```
+- Set up regular state backup for Terraform
+  ```bash
+  cd production/terraform
+  terraform state pull > backup/terraform-state-$(date +%Y%m%d).json
+  ```
+
+By following these testing and validation procedures, you can ensure that your Ray Data LLM deployment is reliable, performs well, and remains operational in a production environment.
