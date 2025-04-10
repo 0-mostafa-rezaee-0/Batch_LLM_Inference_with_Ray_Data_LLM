@@ -7,187 +7,160 @@
 ## Table of Contents
 
 <details>
-  <summary><a href="#1-introduction"><i><b>1. Introduction</b></i></a></summary>
+  <summary><a href="#1-about-this-repository"><i><b>1. About this Repository</b></i></a></summary>
   <div>
-              <a href="#11-ray">1.1. Ray</a><br>
-              <a href="#12-ray-data-llm">1.2. Ray Data LLM</a><br>
-              <a href="#13-problem-generate-responses-to-common-questions">1.3. Problem: Generate Responses to Common Questions</a><br>
-              <a href="#14-what-you-want">1.4. What You Want</a><br>
-              <a href="#15-how-ray-data-llm-helps">1.5. How Ray Data LLM Helps</a><br>
-              <a href="#16-why-use-ray-data-llm">1.6. Why Use Ray Data LLM</a><br>
-              <a href="#17-next-steps">1.7. Next Steps</a><br>
-              <a href="#18-repository-structure">1.8. Repository Structure</a><br>
+              <a href="#11-who-is-this-project-for">1.1. Who Is This Project For?</a><br>
+              <a href="#12-what-will-you-learn">1.2. What Will You Learn?</a><br>
+              <a href="#13-prerequisites">1.3. Prerequisites</a><br>
+              <a href="#14-repository-structure">1.4. Repository Structure</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="#2-fundamental-level-generating-responses-to-common-questions"><i><b>2. Fundamental Level: Generating Responses to Common Questions</b></i></a></summary>
+  <summary><a href="#2-introduction"><i><b>2. Introduction</b></i></a></summary>
   <div>
-              <a href="#21-problem">2.1. Problem</a><br>
-              <a href="#22-example-questions">2.2. Example Questions</a><br>
-              <a href="#23-why-batch-processing">2.3. Why Batch Processing</a><br>
-              <a href="#24-real-life-example">2.4. Real-Life Example</a><br>
+              <a href="#21-ray">2.1. Ray</a><br>
+              <a href="#22-ray-data-llm">2.2. Ray Data LLM</a><br>
+              <a href="#23-problem-generate-responses-to-common-questions">2.3. Problem: Generate Responses to Common Questions</a><br>
+              <a href="#24-what-you-want">2.4. What You Want</a><br>
+              <a href="#25-how-ray-data-llm-helps">2.5. How Ray Data LLM Helps</a><br>
+              <a href="#26-why-use-ray-data-llm">2.6. Why Use Ray Data LLM</a><br>
+              <a href="#27-next-steps">2.7. Next Steps</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="#3-intermediate-level-text-generation-from-user-prompts"><i><b>3. Intermediate Level: Text Generation from User Prompts</b></i></a></summary>
+  <summary><a href="#3-fundamental-level-generating-responses-to-common-questions"><i><b>3. Fundamental Level: Generating Responses to Common Questions</b></i></a></summary>
   <div>
               <a href="#31-problem">3.1. Problem</a><br>
-              <a href="#32-example-prompts">3.2. Example Prompts</a><br>
-              <a href="#33-why-use-ray-data-llm">3.3. Why Use Ray Data LLM</a><br>
+              <a href="#32-example-questions">3.2. Example Questions</a><br>
+              <a href="#33-why-batch-processing">3.3. Why Batch Processing</a><br>
+              <a href="#34-real-life-example">3.4. Real-Life Example</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="#4-advanced-level-real-world-use-case"><i><b>4. Advanced Level: Real-World Use Case</b></i></a></summary>
+  <summary><a href="#4-intermediate-level-text-generation-from-user-prompts"><i><b>4. Intermediate Level: Text Generation from User Prompts</b></i></a></summary>
   <div>
               <a href="#41-problem">4.1. Problem</a><br>
-              <a href="#42-why-batch-processing">4.2. Why Batch Processing</a><br>
-              <a href="#43-how-ray-data-llm-helps">4.3. How Ray Data LLM Helps</a><br>
+              <a href="#42-example-prompts">4.2. Example Prompts</a><br>
+              <a href="#43-why-use-ray-data-llm">4.3. Why Use Ray Data LLM</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="#5-announcing-native-llm-apis-in-ray-data-and-ray-serve"><i><b>5. Announcing Native LLM APIs in Ray Data and Ray Serve</b></i></a></summary>
+  <summary><a href="#5-advanced-level-real-world-use-case"><i><b>5. Advanced Level: Real-World Use Case</b></i></a></summary>
   <div>
-              <a href="#51-introduction">5.1. Introduction</a><br>
-              <a href="#52-ray-data-llm">5.2. Ray Data LLM</a><br>
-              <a href="#53-ray-serve-llm">5.3. Ray Serve LLM</a><br>
-              <a href="#54-future-developments">5.4. Future Developments</a><br>
-              <a href="#55-additional-resources">5.5. Additional Resources</a><br>
+              <a href="#51-problem">5.1. Problem</a><br>
+              <a href="#52-why-batch-processing">5.2. Why Batch Processing</a><br>
+              <a href="#53-how-ray-data-llm-helps">5.3. How Ray Data LLM Helps</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="#6-hardware-requirements-and-testing-environment"><i><b>6. Hardware Requirements and Testing Environment</b></i></a></summary>
+  <summary><a href="#6-announcing-native-llm-apis-in-ray-data-and-ray-serve"><i><b>6. Announcing Native LLM APIs in Ray Data and Ray Serve</b></i></a></summary>
   <div>
-              <a href="#testing-environment">6.1. Testing Environment</a><br>
-              <a href="#hardware-recommendations">6.2. Hardware Recommendations</a><br>
+              <a href="#61-introduction">6.1. Introduction</a><br>
+              <a href="#62-ray-data-llm">6.2. Ray Data LLM</a><br>
+              <a href="#63-ray-serve-llm">6.3. Ray Serve LLM</a><br>
+              <a href="#64-future-developments">6.4. Future Developments</a><br>
+              <a href="#65-additional-resources">6.5. Additional Resources</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="#7-getting-started"><i><b>7. Getting Started</b></i></a></summary>
+  <summary><a href="#7-hardware-requirements-and-testing-environment"><i><b>7. Hardware Requirements and Testing Environment</b></i></a></summary>
   <div>
-              <a href="#installation-and-setup">7.1. Installation and Setup</a><br>
-              <a href="#running-examples">7.2. Running Examples</a><br>
-              <a href="#data-processing">7.3. Data Processing</a><br>
-              <a href="#shutting-down">7.4. Shutting Down</a><br>
+              <a href="#testing-environment">7.1. Testing Environment</a><br>
+              <a href="#hardware-recommendations">7.2. Hardware Recommendations</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="#8-working-with-llama-models"><i><b>8. Working with Llama Models</b></i></a></summary>
+  <summary><a href="#8-getting-started"><i><b>8. Getting Started</b></i></a></summary>
   <div>
-              <a href="#hardware-considerations">8.1. Hardware Considerations</a><br>
-              <a href="#model-acquisition-and-storage">8.2. Model Acquisition and Storage</a><br>
-              <a href="#setup-requirements">8.3. Setup Requirements</a><br>
-              <a href="#performance-optimization-tips">8.4. Performance Optimization Tips</a><br>
+              <a href="#installation-and-setup">8.1. Installation and Setup</a><br>
+              <a href="#running-examples">8.2. Running Examples</a><br>
+              <a href="#data-processing">8.3. Data Processing</a><br>
+              <a href="#shutting-down">8.4. Shutting Down</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="#9-data-formats-and-requirements"><i><b>9. Data Formats and Requirements</b></i></a></summary>
+  <summary><a href="#9-working-with-llama-models"><i><b>9. Working with Llama Models</b></i></a></summary>
   <div>
-              <a href="#91-input-data-format">9.1. Input Data Format</a><br>
-              <a href="#92-example-data-structures">9.2. Example Data Structures</a><br>
-              <a href="#93-processing-custom-data">9.3. Processing Custom Data</a><br>
-              <a href="#94-data-storage-and-volume-considerations">9.4. Data Storage and Volume Considerations</a><br>
+              <a href="#hardware-considerations">9.1. Hardware Considerations</a><br>
+              <a href="#model-acquisition-and-storage">9.2. Model Acquisition and Storage</a><br>
+              <a href="#setup-requirements">9.3. Setup Requirements</a><br>
+              <a href="#performance-optimization-tips">9.4. Performance Optimization Tips</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="#10-model-management-and-cicd-considerations"><i><b>10. Model Management and CI/CD Considerations</b></i></a></summary>
+  <summary><a href="#10-data-formats-and-requirements"><i><b>10. Data Formats and Requirements</b></i></a></summary>
   <div>
-              <a href="#101-model-distribution-practices">10.1. Model Distribution Practices</a><br>
-              <a href="#102-cicd-pipeline-configuration">10.2. CI/CD Pipeline Configuration</a><br>
-              <a href="#103-docker-image-optimization">10.3. Docker Image Optimization</a><br>
-              <a href="#104-collaborative-development">10.4. Collaborative Development</a><br>
+              <a href="#101-input-data-format">10.1. Input Data Format</a><br>
+              <a href="#102-example-data-structures">10.2. Example Data Structures</a><br>
+              <a href="#103-processing-custom-data">10.3. Processing Custom Data</a><br>
+              <a href="#104-data-storage-and-volume-considerations">10.4. Data Storage and Volume Considerations</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="docs/jargon.md"><i><b>11. Technical Jargon Glossary</b></i></a></summary>
+  <summary><a href="#11-model-management-and-cicd-considerations"><i><b>11. Model Management and CI/CD Considerations</b></i></a></summary>
+  <div>
+              <a href="#111-model-distribution-practices">11.1. Model Distribution Practices</a><br>
+              <a href="#112-cicd-pipeline-configuration">11.2. CI/CD Pipeline Configuration</a><br>
+              <a href="#113-docker-image-optimization">11.3. Docker Image Optimization</a><br>
+              <a href="#114-collaborative-development">11.4. Collaborative Development</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="docs/jargon.md"><i><b>12. Technical Jargon Glossary</b></i></a></summary>
   <div>
               A comprehensive glossary of technical terms and concepts used in this project.
   </div>
 </details>
 
-## 1. Introduction
+## 1. About this Repository
 
-Think about a customer support bot that receives 1000 similar questions every day. Instead of answering each one as it comes, you could collect the questions and process them in bulk (Batch processing), giving quick responses to all of them at once.
+This project demonstrates how to perform batch inference with Large Language Models (LLMs) using Ray Data LLM. It provides a comprehensive guide to efficiently process multiple inputs simultaneously, making LLM inference faster and more scalable.
 
-Batch processing is essential when generating text responses efficiently using large language models (LLMs). Instead of processing each input one by one, batch inference allows the handling of multiple inputs at once, making it faster and more scalable.
+### 1.1. Who Is This Project For?
 
-In this tutorial, we will start with a straightforward problem to introduce the concept of batch inference with Ray Data LLM. We will then progress to more advanced scenarios, gradually building your understanding and skills.
+This project is designed for:
 
-### 1.1. Ray
+- **ML Engineers** looking to scale LLM inference for production applications
+- **Data Scientists** working with large datasets that require LLM processing
+- **NLP Researchers** exploring efficient ways to run experiments on large text corpora
+- **DevOps Engineers** interested in optimizing infrastructure for LLM workloads
+- **Software Developers** building applications that leverage LLMs
 
-Ray is an open-source framework for building and running distributed applications. It enables developers to scale Python applications from a single machine to a cluster, making parallel computing more accessible. Ray provides a unified API for various tasks such as data processing, model training, and inference.
+### 1.2. What Will You Learn?
 
-Key Features:
+By the end of this project, you will:
 
-* Distributed computing made easy with Pythonic syntax
-* Built-in support for machine learning workflows
-* Libraries for hyperparameter tuning (Ray Tune), model serving (Ray Serve), and data processing (Ray Data)
-* Scales seamlessly from a single machine to a large cluster
+- Understand the fundamentals of batch processing with LLMs
+- Learn how to use Ray Data LLM for efficient distributed inference
+- Implement scalable text generation pipelines
+- Configure vLLM and other inference engines for optimal performance
+- Deploy LLM services with Ray Serve
+- Create end-to-end workflows for various text processing tasks
+- Optimize hardware resource utilization for LLM workloads
 
-### 1.2. Ray Data LLM
+### 1.3. Prerequisites
 
-Ray Data LLM is a module within Ray designed for batch inference using large language models (LLMs). It allows developers to perform batch text generation efficiently by integrating LLM processing into existing Ray Data pipelines.
+This project is suitable for three types of learners:
 
-Key Features:
+- **For those familiar with Ray and LLMs:**
+  - You can dive straight into the advanced examples and Ray Data LLM APIs. The examples and configurations provided will help you enhance your skills and explore best practices.
+- **For those who know Python/ML but are new to Ray or batch LLM inference:**
+  - This project will introduce you to Ray's distributed computing capabilities and guide you through implementing scalable LLM processing pipelines.
+- **For beginners:**
+  - Start with the fundamental concepts in Section 2 and work through the examples progressively. Each section builds on the previous one, helping you develop a solid understanding of batch LLM inference.
 
-* Batch Processing:
-  * Simultaneous processing of multiple inputs for faster throughput
-* Efficient Scaling:
-  * Distributes tasks across multiple CPUs/GPUs
-* Seamless Integration:
-  * Works with popular LLMs like Meta Llama
-* OpenAI Compatibility:
-  * Easily integrates with OpenAI API endpoints
-
-By using Ray Data LLM, developers can scale their LLM-based applications without the hassle of manual optimization or distributed computing setups.
-
-### 1.3. Problem: Generate Responses to Common Questions
-
-Imagine you have a list of common questions people might ask a chatbot. Instead of responding to each question one by one, you want to generate answers for all the questions at once.
-
-#### 1.3.1. Example Questions:
-
-1. "What is the weather like today?"
-2. "Tell me a joke."
-3. "Give me a motivational quote."
-4. "What is 2+2?"
-
-### 1.4. What You Want:
-
-Instead of sending each question to the chatbot separately, you want to batch process them all at once, saving time and computing resources.
-
-### 1.5. How Ray Data LLM Helps:
-
-* **Batch Processing:** Instead of generating responses one by one, Ray Data LLM lets you process all questions simultaneously.
-* **Efficient Scaling:** If you have 1000 questions, the system can distribute the workload across multiple processors, making it much faster.
-
-### 1.6. Why Use Ray Data LLM?
-
-Ray Data LLM integrates seamlessly with existing Ray Data pipelines, allowing for efficient batch inference with LLMs. It enables:
-
-* High-throughput processing
-* Distributed execution
-* Integration with OpenAI-compatible endpoints
-* Support for popular LLMs like Meta Llama
-
-### 1.7. Next Steps
-
-Ray Data LLM provides a simple and scalable way to perform batch inference using LLMs. Starting from basic chatbot responses to complex sentiment analysis, it enables high-throughput text generation and processing.
-
-* Set up Ray and Ray Data on your system.
-* Follow the provided code examples to implement the discussed problems.
-* Experiment with different models and configurations for better performance.
-
-### 1.8. Repository Structure
+### 1.4. Repository Structure
 
 ```
 Folder PATH listing
@@ -226,65 +199,138 @@ Folder PATH listing
 |   requirements.txt                    <-- Python dependencies
 ```
 
-## 2. Fundamental Level: Generating Responses to Common Questions
+## 2. Introduction
 
-### 2.1. Problem
+Think about a customer support bot that receives 1000 similar questions every day. Instead of answering each one as it comes, you could collect the questions and process them in bulk (Batch processing), giving quick responses to all of them at once.
 
-Imagine you have a list of common questions that people might ask a chatbot. Instead of generating a response for each question one by one, you want to generate answers for all the questions at once.
+Batch processing is essential when generating text responses efficiently using large language models (LLMs). Instead of processing each input one by one, batch inference allows the handling of multiple inputs at once, making it faster and more scalable.
 
-#### 2.2. Example Questions:
+In this tutorial, we will start with a straightforward problem to introduce the concept of batch inference with Ray Data LLM. We will then progress to more advanced scenarios, gradually building your understanding and skills.
+
+### 2.1. Ray
+
+Ray is an open-source framework for building and running distributed applications. It enables developers to scale Python applications from a single machine to a cluster, making parallel computing more accessible. Ray provides a unified API for various tasks such as data processing, model training, and inference.
+
+Key Features:
+
+* Distributed computing made easy with Pythonic syntax
+* Built-in support for machine learning workflows
+* Libraries for hyperparameter tuning (Ray Tune), model serving (Ray Serve), and data processing (Ray Data)
+* Scales seamlessly from a single machine to a large cluster
+
+### 2.2. Ray Data LLM
+
+Ray Data LLM is a module within Ray designed for batch inference using large language models (LLMs). It allows developers to perform batch text generation efficiently by integrating LLM processing into existing Ray Data pipelines.
+
+Key Features:
+
+* Batch Processing:
+  * Simultaneous processing of multiple inputs for faster throughput
+* Efficient Scaling:
+  * Distributes tasks across multiple CPUs/GPUs
+* Seamless Integration:
+  * Works with popular LLMs like Meta Llama
+* OpenAI Compatibility:
+  * Easily integrates with OpenAI API endpoints
+
+By using Ray Data LLM, developers can scale their LLM-based applications without the hassle of manual optimization or distributed computing setups.
+
+### 2.3. Problem: Generate Responses to Common Questions
+
+Imagine you have a list of common questions people might ask a chatbot. Instead of responding to each question one by one, you want to generate answers for all the questions at once.
+
+#### 2.3.1. Example Questions:
 
 1. "What is the weather like today?"
 2. "Tell me a joke."
 3. "Give me a motivational quote."
 4. "What is 2+2?"
 
-### 2.3. Why Batch Processing?
+### 2.4. What You Want:
 
-Instead of sending each question to the chatbot separately, batch processing allows you to process all questions simultaneously, saving time and computing resources.
+Instead of sending each question to the chatbot separately, you want to batch process them all at once, saving time and computing resources.
 
-#### 2.4. Real-Life Example
+### 2.5. How Ray Data LLM Helps:
 
-Think about a customer support bot that receives thousands of similar questions daily. Instead of answering each one as it arrives, you could collect them and process them all at once, providing quick responses efficiently.
+* **Batch Processing:** Instead of generating responses one by one, Ray Data LLM lets you process all questions simultaneously.
+* **Efficient Scaling:** If you have 1000 questions, the system can distribute the workload across multiple processors, making it much faster.
 
-## 3. Intermediate Level: Text Generation from User Prompts
+### 2.6. Why Use Ray Data LLM?
+
+Ray Data LLM integrates seamlessly with existing Ray Data pipelines, allowing for efficient batch inference with LLMs. It enables:
+
+* High-throughput processing
+* Distributed execution
+* Integration with OpenAI-compatible endpoints
+* Support for popular LLMs like Meta Llama
+
+### 2.7. Next Steps
+
+Ray Data LLM provides a simple and scalable way to perform batch inference using LLMs. Starting from basic chatbot responses to complex sentiment analysis, it enables high-throughput text generation and processing.
+
+* Set up Ray and Ray Data on your system.
+* Follow the provided code examples to implement the discussed problems.
+* Experiment with different models and configurations for better performance.
+
+## 3. Fundamental Level: Generating Responses to Common Questions
 
 ### 3.1. Problem
 
+Imagine you have a list of common questions that people might ask a chatbot. Instead of generating a response for each question one by one, you want to generate answers for all the questions at once.
+
+#### 3.2. Example Questions:
+
+1. "What is the weather like today?"
+2. "Tell me a joke."
+3. "Give me a motivational quote."
+4. "What is 2+2?"
+
+### 3.3. Why Batch Processing?
+
+Instead of sending each question to the chatbot separately, batch processing allows you to process all questions simultaneously, saving time and computing resources.
+
+#### 3.4. Real-Life Example
+
+Think about a customer support bot that receives thousands of similar questions daily. Instead of answering each one as it arrives, you could collect them and process them all at once, providing quick responses efficiently.
+
+## 4. Intermediate Level: Text Generation from User Prompts
+
+### 4.1. Problem
+
 Now, imagine you have a list of user prompts for creative text generation. Instead of generating each text separately, you want to create a pipeline that processes all prompts together.
 
-#### 3.2. Example Prompts:
+#### 4.2. Example Prompts:
 
 * "Write a haiku about nature."
 * "Generate a short story about space exploration."
 * "Summarize the following paragraph..."
 
-### 3.3. Why Use Ray Data LLM?
+### 4.3. Why Use Ray Data LLM?
 
 * You can use Ray Data to load a large number of prompts at once.
 * Ray Data LLM allows you to batch process these prompts with the selected LLM model.
 
-## 4. Advanced Level: Real-World Use Case
+## 5. Advanced Level: Real-World Use Case
 
-### 4.1. Problem
+### 5.1. Problem
 
 You have a dataset containing thousands of social media posts. You want to classify the sentiment (positive, negative, neutral) of each post using an LLM.
 
-### 4.2. Why Batch Processing?
+### 5.2. Why Batch Processing?
 
 Performing sentiment analysis on each post individually would take too much time. By batching, you can classify the entire dataset at once.
 
-#### 4.3. How Ray Data LLM Helps:
+#### 5.3. How Ray Data LLM Helps:
 
 * Efficiently loads the dataset.
 * Applies the LLM processor to generate sentiment labels.
 * Uses distributed processing to handle large volumes of data efficiently.
 
-## 5. Announcing Native LLM APIs in Ray Data and Ray Serve
+## 6. Announcing Native LLM APIs in Ray Data and Ray Serve
 
 By The Anyscale Team | April 2, 2025
 
-### 5.1 Introduction
+### 6.1 Introduction
 
 Today, we're excited to announce native APIs for LLM inference with Ray Data and Ray Serve.
 
@@ -297,7 +343,7 @@ In Ray 2.44, we're announcing **Ray Data LLM** and **Ray Serve LLM**.
 
 Both modules offer first-class integration for vLLM and OpenAI compatible endpoints.
 
-### 5.2 Ray Data LLM
+### 6.2 Ray Data LLM
 
 The `ray.data.llm` module integrates with key large language model (LLM) inference engines and deployed models to enable LLM batch inference.
 
@@ -363,7 +409,7 @@ In this particular example, the Processor object will:
 
 As you can see, Ray Data LLM can easily simplify the usage of LLMs within your existing data pipelines. See the documentation for more details.
 
-### 5.3 Ray Serve LLM
+### 6.3 Ray Serve LLM
 
 Ray Serve LLM APIs allow users to deploy multiple LLM models together with a familiar Ray Serve API, while providing compatibility with the OpenAI API.
 
@@ -444,11 +490,11 @@ for chunk in response:
 
 Ray Serve LLM can also be deployed on Kubernetes by using KubeRay. Take a look at the Ray Serve production guide for more details.
 
-### 5.4 Future Developments
+### 6.4 Future Developments
 
 Give these new features a spin and let us know your feedback! If you're interested in chatting with developers, feel free to join the Ray Slack or participate on Discourse, and follow the roadmap for Ray Serve LLM and Ray Data LLM for future updates.
 
-### 5.5 Additional Resources
+### 6.5 Additional Resources
 
 - [Ray Data LLM Documentation](https://docs.ray.io/en/latest/ray-data/llm.html)
 - [Ray Serve LLM Documentation](https://docs.ray.io/en/latest/serve/llm.html)
@@ -458,7 +504,7 @@ Give these new features a spin and let us know your feedback! If you're interest
 - [Ray Roadmap](https://docs.ray.io/en/latest/roadmap.html)
 - [KubeRay](https://github.com/ray-project/kuberay)
 
-## 6. Hardware Requirements and Testing Environment
+## 7. Hardware Requirements and Testing Environment
 
 This project has been tested on the following hardware setup:
 
@@ -488,7 +534,7 @@ For optimal performance with Ray Data LLM and Ray Serve LLM, consider the follow
 
 For larger models (such as Llama-3.1-70B), more substantial GPU resources or a multi-GPU setup is required. The examples in this repository are configured to run on the testing environment specified above and may need adjustment for your specific hardware configuration.
 
-## 7. Getting Started
+## 8. Getting Started
 
 ### Installation and Setup
 
@@ -590,7 +636,7 @@ docker-compose down
 
 This will stop all containers and free up system resources.
 
-## 8. Working with Llama Models
+## 9. Working with Llama Models
 
 This repository includes support for Meta's Llama 3.1 models, which provide high-quality results but require careful hardware configuration. A dedicated notebook (`notebooks/llama_batch_inference.ipynb`) is provided for working with these models.
 
@@ -688,11 +734,11 @@ For systems with limited GPU memory (8GB VRAM):
 
 For complete examples and implementation details, see the dedicated Llama notebook.
 
-## 9. Data Formats and Requirements
+## 10. Data Formats and Requirements
 
 The effectiveness of batch LLM inference depends significantly on how your data is structured. This section covers the data formats supported by this project and requirements for optimal performance.
 
-### 9.1. Input Data Format
+### 10.1. Input Data Format
 
 Ray Data LLM accepts several input formats for batch processing:
 
@@ -719,7 +765,7 @@ Ray Data LLM accepts several input formats for batch processing:
   ds = ray.data.read_json("prompts.json")
   ```
 
-### 9.2. Example Data Structures
+### 10.2. Example Data Structures
 
 Different use cases require different data structures:
 
@@ -754,7 +800,7 @@ Different use cases require different data structures:
   ds = ray.data.from_items(data)
   ```
 
-### 9.3. Processing Custom Data
+### 10.3. Processing Custom Data
 
 To process your own data with Ray Data LLM:
 
@@ -786,7 +832,7 @@ To process your own data with Ray Data LLM:
    results = processor(ds)
    ```
 
-### 9.4. Data Storage and Volume Considerations
+### 10.4. Data Storage and Volume Considerations
 
 - **Memory Requirements**: Each batch consumes memory proportional to the number of tokens
 - **Scaling Guidelines**:
@@ -804,11 +850,11 @@ To process your own data with Ray Data LLM:
 
 For examples of different data processing approaches, refer to the notebooks in the `notebooks` directory.
 
-## 10. Model Management and CI/CD Considerations
+## 11. Model Management and CI/CD Considerations
 
 When working with large language models in collaborative environments or CI/CD pipelines, special considerations are needed to manage model weights efficiently.
 
-### 10.1. Model Distribution Practices
+### 11.1. Model Distribution Practices
 
 Rather than storing model weights in version control:
 
@@ -831,7 +877,7 @@ Rather than storing model weights in version control:
   # Instead of just "meta-llama/Llama"
   ```
 
-### 10.2. CI/CD Pipeline Configuration
+### 11.2. CI/CD Pipeline Configuration
 
 For continuous integration and deployment pipelines:
 
@@ -860,7 +906,7 @@ For continuous integration and deployment pipelines:
   model = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
   ```
 
-### 10.3. Docker Image Optimization
+### 11.3. Docker Image Optimization
 
 For containerized deployments:
 
@@ -897,7 +943,7 @@ For containerized deployments:
         - model-cache:/root/.cache/huggingface
   ```
 
-### 10.4. Collaborative Development
+### 11.4. Collaborative Development
 
 When multiple team members work on the same project:
 
@@ -914,6 +960,6 @@ When multiple team members work on the same project:
 
 For more details on CI/CD best practices, refer to the [Ray Production Guide](https://docs.ray.io/en/latest/serve/production-guide.html).
 
-## 11. Technical Jargon Glossary
+## 12. Technical Jargon Glossary
 
 A comprehensive glossary of technical terms and concepts used in this project is available in the [Technical Jargon Glossary](docs/jargon.md).
