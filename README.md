@@ -77,7 +77,16 @@
 </details>
 
 <details>
-  <summary><a href="docs/jargon.md"><i><b>8. Technical Jargon Glossary</b></i></a></summary>
+  <summary><a href="#8-working-with-llama-models"><i><b>8. Working with Llama Models</b></i></a></summary>
+  <div>
+              <a href="#hardware-considerations">8.1. Hardware Considerations</a><br>
+              <a href="#setup-requirements">8.2. Setup Requirements</a><br>
+              <a href="#performance-optimization-tips">8.3. Performance Optimization Tips</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="docs/jargon.md"><i><b>9. Technical Jargon Glossary</b></i></a></summary>
   <div>
               A comprehensive glossary of technical terms and concepts used in this project.
   </div>
@@ -512,6 +521,69 @@ docker-compose down
 
 This will stop all containers and free up system resources.
 
-## 8. Technical Jargon Glossary
+## 8. Working with Llama Models
+
+This repository includes support for Meta's Llama 3.1 models, which provide high-quality results but require careful hardware configuration. A dedicated notebook (`notebooks/llama_batch_inference.ipynb`) is provided for working with these models.
+
+### Hardware Considerations
+
+The Llama 3.1 models require significant GPU resources:
+
+- **Llama-3.1-8B**: Requires 8GB+ VRAM (RTX 2080 or better)
+- **Llama-3.1-70B**: Requires multi-GPU setup or specialized hardware
+
+### Setup Requirements
+
+1. **Hugging Face Access**:
+   - You need a Hugging Face account with access to Meta Llama models
+   - Generate a token at https://huggingface.co/settings/tokens
+   - Set your token: `export HUGGING_FACE_HUB_TOKEN='your_token_here'`
+
+2. **Docker Rebuild** (after updating repository):
+   ```bash
+   cd docker
+   docker-compose build
+   docker-compose up -d
+   ```
+
+### Performance Optimization Tips
+
+For systems with limited GPU memory (8GB VRAM):
+
+1. **Reduce Batch Size**: 
+   ```python
+   config = vLLMEngineProcessorConfig(
+       model="meta-llama/Llama-3.1-8B-Instruct",
+       batch_size=16,  # Reduced from default 64
+       # ... other config ...
+   )
+   ```
+
+2. **Limit Token Processing**:
+   ```python
+   engine_kwargs={
+       "max_num_batched_tokens": 2048,  # Reduced from 4096
+       "max_model_len": 8192,           # Reduced from 16384
+       # ... other kwargs ...
+   }
+   ```
+
+3. **Control GPU Memory Usage**:
+   ```python
+   engine_kwargs={
+       "gpu_memory_utilization": 0.85,  # Controls memory allocation
+       "enable_chunked_prefill": True,  # Helps with memory efficiency
+       # ... other kwargs ...
+   }
+   ```
+
+4. **System Recommendations**:
+   - Close other GPU-intensive applications
+   - Monitor memory usage with `nvidia-smi`
+   - If using WSL, ensure GPU passthrough is properly configured
+
+For complete examples and implementation details, see the dedicated Llama notebook.
+
+## 9. Technical Jargon Glossary
 
 A comprehensive glossary of technical terms and concepts used in this project is available in the [Technical Jargon Glossary](docs/jargon.md).
