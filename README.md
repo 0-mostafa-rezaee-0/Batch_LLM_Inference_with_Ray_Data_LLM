@@ -16,6 +16,7 @@
               <a href="#15-how-ray-data-llm-helps">1.5. How Ray Data LLM Helps</a><br>
               <a href="#16-why-use-ray-data-llm">1.6. Why Use Ray Data LLM</a><br>
               <a href="#17-next-steps">1.7. Next Steps</a><br>
+              <a href="#18-repository-structure">1.8. Repository Structure</a><br>
   </div>
 </details>
 
@@ -185,6 +186,43 @@ Ray Data LLM provides a simple and scalable way to perform batch inference using
 * Set up Ray and Ray Data on your system.
 * Follow the provided code examples to implement the discussed problems.
 * Experiment with different models and configurations for better performance.
+
+### 1.8. Repository Structure
+
+```
+Folder PATH listing
+.
++---docker                        <-- Docker configuration for Ray cluster
+|       README.md                 <-- Documentation for Docker setup
+|       docker-compose.yml        <-- Defines Ray head and worker services
+|       Dockerfile                <-- Base image for Ray containers
+|
++---docs                          <-- Documentation files
+|       README.md                 <-- Documentation overview
+|       jargon.md                 <-- Technical jargon glossary
+|
++---figures                       <-- Contains images for documentation
+|       README.md                 <-- Documentation for the figures folder
+|       logo.png                  <-- Project logo
+|       ray_data_llm.jpg          <-- Ray Data LLM architecture diagram
+|       vLLM_vs_Ray-Serve.jpg     <-- Comparison illustration
+|
++---notebooks                     <-- Jupyter notebooks
+|       README.md                 <-- Documentation for the notebooks folder
+|       llama_batch_inference.ipynb <-- Llama 3.1 batch inference examples
+|       ray_data_llm_test.ipynb   <-- Basic Ray Data LLM test notebook
+|
++---scripts                       <-- Python scripts
+|       README.md                 <-- Documentation for the scripts folder
+|       ray_data_llm_haiku_example.py <-- Example script for haiku generation
+|       ray_serve_llm_deployment.py <-- Example Ray Serve LLM deployment
+|       openai_client_query.py    <-- Example for querying with OpenAI client
+|
+|   .gitignore                    <-- Files to exclude from git
+|   LICENSE                       <-- License information
+|   README.md                     <-- This documentation file
+|   requirements.txt              <-- Python dependencies
+```
 
 ## 2. Fundamental Level: Generating Responses to Common Questions
 
