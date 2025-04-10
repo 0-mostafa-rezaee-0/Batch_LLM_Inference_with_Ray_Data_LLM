@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   ray-head:
     build:
@@ -16,19 +14,14 @@ services:
       - ray-data:/tmp/ray
     environment:
       - RAY_ADDRESS=auto
+    user: "${UID:-1000}:${GID:-1000}"
     command: >
       ray start --head
         --dashboard-host=0.0.0.0
         --port=6379
         --dashboard-port=8265
+        --temp-dir=/app/tmp/ray
         --block
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
 
   jupyter:
     build:
@@ -42,16 +35,10 @@ services:
       - ray-data:/tmp/ray
     environment:
       - RAY_ADDRESS=ray://ray-head:10001
+    user: "${UID:-1000}:${GID:-1000}"
     depends_on:
       - ray-head
     command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
 
 volumes:
   ray-data:
