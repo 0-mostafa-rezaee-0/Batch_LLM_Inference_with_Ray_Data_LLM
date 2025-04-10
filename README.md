@@ -80,13 +80,34 @@
   <summary><a href="#8-working-with-llama-models"><i><b>8. Working with Llama Models</b></i></a></summary>
   <div>
               <a href="#hardware-considerations">8.1. Hardware Considerations</a><br>
-              <a href="#setup-requirements">8.2. Setup Requirements</a><br>
-              <a href="#performance-optimization-tips">8.3. Performance Optimization Tips</a><br>
+              <a href="#model-acquisition-and-storage">8.2. Model Acquisition and Storage</a><br>
+              <a href="#setup-requirements">8.3. Setup Requirements</a><br>
+              <a href="#performance-optimization-tips">8.4. Performance Optimization Tips</a><br>
   </div>
 </details>
 
 <details>
-  <summary><a href="docs/jargon.md"><i><b>9. Technical Jargon Glossary</b></i></a></summary>
+  <summary><a href="#9-data-formats-and-requirements"><i><b>9. Data Formats and Requirements</b></i></a></summary>
+  <div>
+              <a href="#91-input-data-format">9.1. Input Data Format</a><br>
+              <a href="#92-example-data-structures">9.2. Example Data Structures</a><br>
+              <a href="#93-processing-custom-data">9.3. Processing Custom Data</a><br>
+              <a href="#94-data-storage-and-volume-considerations">9.4. Data Storage and Volume Considerations</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="#10-model-management-and-cicd-considerations"><i><b>10. Model Management and CI/CD Considerations</b></i></a></summary>
+  <div>
+              <a href="#101-model-distribution-practices">10.1. Model Distribution Practices</a><br>
+              <a href="#102-cicd-pipeline-configuration">10.2. CI/CD Pipeline Configuration</a><br>
+              <a href="#103-docker-image-optimization">10.3. Docker Image Optimization</a><br>
+              <a href="#104-collaborative-development">10.4. Collaborative Development</a><br>
+  </div>
+</details>
+
+<details>
+  <summary><a href="docs/jargon.md"><i><b>11. Technical Jargon Glossary</b></i></a></summary>
   <div>
               A comprehensive glossary of technical terms and concepts used in this project.
   </div>
@@ -532,6 +553,41 @@ The Llama 3.1 models require significant GPU resources:
 - **Llama-3.1-8B**: Requires 8GB+ VRAM (RTX 2080 or better)
 - **Llama-3.1-70B**: Requires multi-GPU setup or specialized hardware
 
+### Model Acquisition and Storage
+
+#### Obtaining the Model
+
+- **Access Requirements**: 
+  - You need to request and be granted access to Meta's Llama models on [Hugging Face Hub](https://huggingface.co/meta-llama)
+  - Generate a personal access token at https://huggingface.co/settings/tokens
+  - Set the token as an environment variable: `export HUGGING_FACE_HUB_TOKEN='your_token_here'`
+
+- **Download Process**:
+  - First run will automatically download model weights (~5-6GB for Llama-3.1-8B)
+  - Download typically takes 5-10 minutes depending on internet speed
+  - Loading to GPU takes 30-90 seconds depending on hardware
+
+#### Storage Location
+
+- **Cache Directories**:
+  - Hugging Face cache: `~/.cache/huggingface/hub/`
+  - vLLM optimization cache: `~/.cache/vllm/`
+
+- **Docker Persistence**:
+  - To persist models between container restarts, add these volume mounts to docker-compose.yml:
+    ```yaml
+    volumes:
+      - ../:/app
+      - ~/.cache/huggingface:/root/.cache/huggingface
+      - ~/.cache/vllm:/root/.cache/vllm
+    ```
+
+#### Storage Requirements
+
+- Llama-3.1-8B: ~5-6GB disk space for model weights
+- Additional ~1-2GB for tokenizer files and optimization data
+- Total disk requirement: At least 10GB free space recommended
+
 ### Setup Requirements
 
 1. **Hugging Face Access**:
@@ -584,6 +640,232 @@ For systems with limited GPU memory (8GB VRAM):
 
 For complete examples and implementation details, see the dedicated Llama notebook.
 
-## 9. Technical Jargon Glossary
+## 9. Data Formats and Requirements
+
+The effectiveness of batch LLM inference depends significantly on how your data is structured. This section covers the data formats supported by this project and requirements for optimal performance.
+
+### 9.1. Input Data Format
+
+Ray Data LLM accepts several input formats for batch processing:
+
+- **Dictionary/JSON Format**: Most flexible format with multiple fields per record
+  ```python
+  [{"question": "What is Ray?", "context": "Ray is a framework for..."}, ...]
+  ```
+
+- **Simple Text List**: For straightforward prompts
+  ```python
+  ["Write a haiku about nature", "Explain quantum physics", ...]
+  ```
+
+- **Pandas DataFrame**: For data already in DataFrame format
+  ```python
+  df = pd.DataFrame({"question": ["What is Ray?", ...], "context": ["Ray is...", ...]})
+  ds = ray.data.from_pandas(df)
+  ```
+
+- **CSV/JSON/Parquet Files**: For data stored in files
+  ```python
+  ds = ray.data.read_csv("questions.csv")
+  # or
+  ds = ray.data.read_json("prompts.json")
+  ```
+
+### 9.2. Example Data Structures
+
+Different use cases require different data structures:
+
+- **Simple Q&A**:
+  ```python
+  questions = [
+      "What is the capital of France?",
+      "How many planets are in our solar system?",
+      "What is 2+2?"
+  ]
+  ds = ray.data.from_items([{"question": q} for q in questions])
+  ```
+
+- **Creative Generation**:
+  ```python
+  prompts = [
+      "Write a haiku about artificial intelligence.",
+      "Generate a short story about space exploration.",
+      "Describe a futuristic city in three sentences."
+  ]
+  ds = ray.data.from_items([{"prompt": p} for p in prompts])
+  ```
+
+- **Context-Aware Responses**:
+  ```python
+  data = [
+      {"context": "Ray is a framework for distributed computing.", 
+       "question": "What is Ray used for?"},
+      {"context": "Llama is an LLM developed by Meta.", 
+       "question": "Who created the Llama model?"}
+  ]
+  ds = ray.data.from_items(data)
+  ```
+
+### 9.3. Processing Custom Data
+
+To process your own data with Ray Data LLM:
+
+1. **Prepare Your Data**: Convert your data into one of the supported formats
+2. **Create a Ray Dataset**:
+   ```python
+   # From a list of dictionaries
+   ds = ray.data.from_items(your_data)
+   
+   # From a file
+   ds = ray.data.read_json("your_data.json")
+   ```
+3. **Configure the Processor**:
+   ```python
+   processor = build_llm_processor(
+       config,
+       preprocess=lambda row: dict(
+           messages=[
+               {"role": "system", "content": "You are a helpful assistant."},
+               {"role": "user", "content": row["your_prompt_field"]}
+           ],
+           # Other parameters...
+       ),
+       # Postprocessing function...
+   )
+   ```
+4. **Run Batch Processing**:
+   ```python
+   results = processor(ds)
+   ```
+
+### 9.4. Data Storage and Volume Considerations
+
+- **Memory Requirements**: Each batch consumes memory proportional to the number of tokens
+- **Scaling Guidelines**:
+  - For 8GB VRAM: Limit to ~100-200 items per batch
+  - For 16GB+ VRAM: Can process 500+ items per batch
+- **Storage Format**: For large datasets (>10K items), use Parquet format for efficiency
+  ```python
+  ds.write_parquet("large_dataset.parquet")
+  ds = ray.data.read_parquet("large_dataset.parquet")
+  ```
+- **Checkpointing**: For very large jobs, use checkpointing to save progress
+  ```python
+  ds.write_parquet("checkpoint_data.parquet")
+  ```
+
+For examples of different data processing approaches, refer to the notebooks in the `notebooks` directory.
+
+## 10. Model Management and CI/CD Considerations
+
+When working with large language models in collaborative environments or CI/CD pipelines, special considerations are needed to manage model weights efficiently.
+
+### 10.1. Model Distribution Practices
+
+Rather than storing model weights in version control:
+
+- **Document Download Instructions**: Provide clear instructions for obtaining models
+  ```markdown
+  1. Request access at huggingface.co/meta-llama
+  2. Generate an API token
+  3. Set the HUGGING_FACE_HUB_TOKEN environment variable
+  ```
+
+- **Use Model Cards**: Create model cards documenting:
+  - Model source and version
+  - Required permissions
+  - Hardware requirements
+  - Fine-tuning details (if applicable)
+
+- **Versioning**: Use specific model versions in your code
+  ```python
+  model="meta-llama/Llama-3.1-8B-Instruct" # Explicitly versioned
+  # Instead of just "meta-llama/Llama"
+  ```
+
+### 10.2. CI/CD Pipeline Configuration
+
+For continuous integration and deployment pipelines:
+
+- **Environment Variables**: Set up secure environment variables for model access
+  ```yaml
+  # GitHub Actions example
+  env:
+    HUGGING_FACE_HUB_TOKEN: ${{ secrets.HUGGING_FACE_HUB_TOKEN }}
+  ```
+
+- **Caching Model Weights**:
+  - Configure persistent cache volumes in CI runners
+  ```yaml
+  # Docker-based CI example
+  volumes:
+    - huggingface-cache:/root/.cache/huggingface
+    - vllm-cache:/root/.cache/vllm
+  ```
+
+- **CI-Specific Models**: Consider using smaller models for testing
+  ```python
+  # Production code
+  model = "meta-llama/Llama-3.1-8B-Instruct"
+  
+  # Test/CI code
+  model = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+  ```
+
+### 10.3. Docker Image Optimization
+
+For containerized deployments:
+
+- **Multi-Stage Builds**: Use smaller images for runtime
+  ```dockerfile
+  # Build stage with dependencies
+  FROM python:3.10 AS builder
+  
+  # Runtime stage with minimal footprint
+  FROM python:3.10-slim
+  COPY --from=builder /app /app
+  ```
+
+- **Pre-download Models**: For specific production deployments
+  ```dockerfile
+  # Requires HF token at build time
+  ARG HUGGING_FACE_HUB_TOKEN
+  ENV HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
+  
+  # Pre-download model during image build
+  RUN python -c "from transformers import AutoModel; AutoModel.from_pretrained('meta-llama/Llama-3.1-8B-Instruct')"
+  ```
+
+- **Shared Cache Volumes**: In multi-container deployments
+  ```yaml
+  # docker-compose.yml
+  volumes:
+    model-cache:
+      driver: local
+  
+  services:
+    llm-service:
+      volumes:
+        - model-cache:/root/.cache/huggingface
+  ```
+
+### 10.4. Collaborative Development
+
+When multiple team members work on the same project:
+
+- **Centralized Model Storage**: Consider a team-accessible storage location
+  ```python
+  # Configure custom cache directory
+  os.environ["TRANSFORMERS_CACHE"] = "/team/shared/model-cache"
+  ```
+
+- **Model Registry**: For teams working with fine-tuned models
+  - Document model location and access method
+  - Track model lineage and training parameters
+  - Record benchmark performance metrics
+
+For more details on CI/CD best practices, refer to the [Ray Production Guide](https://docs.ray.io/en/latest/serve/production-guide.html).
+
+## 11. Technical Jargon Glossary
 
 A comprehensive glossary of technical terms and concepts used in this project is available in the [Technical Jargon Glossary](docs/jargon.md).
